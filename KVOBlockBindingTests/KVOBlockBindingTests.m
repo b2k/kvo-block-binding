@@ -95,7 +95,7 @@
 
 - (void) testTwoWayBinding
 {
-    NSMutableArray *bindings = [self bind:self.model keyPath:@"exampleValue1" to:self.model keyPath:@"exampleValue2" addReverseBinding:YES];
+    [self bind:self.model keyPath:@"exampleValue1" to:self.model keyPath:@"exampleValue2" addReverseBinding:YES];
     
     self.model.exampleValue1 = 1; // no change
     STAssertFalse(self.model.exampleValue2 == self.model.exampleValue1, @"Identical changes should not trigger an update of the target object");
@@ -106,22 +106,14 @@
     self.model.exampleValue2 = 20;
     STAssertTrue(self.model.exampleValue1 == self.model.exampleValue2, @"Target/Source binding did not product expected result. Expected: %d, Actual: %d",self.model.exampleValue2,self.model.exampleValue1);
     
-    
-    for (WSObservationBinding *binder in bindings) {
-        [binding invalidate];
-        [[self allBlockBasedObservations] removeObject:binder];
-    }
+    [self removeAllObservationsOn:self.model];
 }
 - (void) testExecuteBinding
 {
-    NSMutableArray *bindings = [self bind:self.model keyPath:@"exampleValue1" to:self.model keyPath:@"exampleValue2" addReverseBinding:YES executeBinding:YES];
+    [self bind:self.model keyPath:@"exampleValue1" to:self.model keyPath:@"exampleValue2" addReverseBinding:YES executeBinding:YES];
     
     STAssertTrue(self.model.exampleValue1 == self.model.exampleValue2, @"Execute binding did not product expected result. Expected: %d, Actual: %d",self.model.exampleValue1,self.model.exampleValue2);
     
-    
-    for (WSObservationBinding *binder in bindings) {
-        [binding invalidate];
-        [[self allBlockBasedObservations] removeObject:binder];
-    }
+    [self removeAllObservationsOn:self.model];
 }
 @end
