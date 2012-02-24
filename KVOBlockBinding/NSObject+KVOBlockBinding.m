@@ -141,6 +141,18 @@
 
     return bindings;
 }
+- (NSArray *) bind:(id)source keyPath:(NSString *)sourcePath to:(id) target keyPath:(NSString *)targetPath addReverseBinding:(BOOL)addReverseBinding executeBinding:(BOOL)executeBinding {
+    NSArray *bindings = [self bind:source keyPath:sourcePath to: target keyPath:targetPath addReverseBinding:addReverseBinding];
+    
+    if (executeBinding) {
+        id value = [source valueForKey:sourcePath];
+        if (value == [NSNull null]) {
+            value = nil;
+        }
+        [target setValue: value forKey:targetPath];
+    }
+    return bindings;
+}
 
 @end
 

@@ -76,6 +76,17 @@ typedef void (^WSObservationBlock)(id observed, NSDictionary *change);
  * @return An array containing the binding and it's reverse, if specified. This does NOT need to be retained
  */
 - (NSMutableArray *) bind:(id)source keyPath:(NSString *)sourcePath to:(id) target keyPath:(NSString *)targetPath addReverseBinding:(BOOL)addReverseBinding;
+/**
+ * Same as above except that it will perform an immediate update of the target if executeBinding is YES  
+ *
+ * @param source The source object to observe
+ * @param sourcePath The keypath of the property to observe on the source using KVO
+ * @param target The target object to observe
+ * @param targetPath The keypath of the property to observe on the target using KVO
+ * @param executeBinding update the target keypath immediately if YES
+ * @return An array containing the binding and it's reverse, if specified. This does NOT need to be retained
+ */
+- (NSMutableArray *) bind:(id)source keyPath:(NSString *)sourcePath to:(id) target keyPath:(NSString *)targetPath addReverseBinding:(BOOL)addReverseBinding executeBinding:(BOOL)executeBinding;
 @end
 
 @interface NSObject (KVOBlockBinding)

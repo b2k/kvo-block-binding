@@ -112,4 +112,16 @@
         [[self allBlockBasedObservations] removeObject:binder];
     }
 }
+- (void) testExecuteBinding
+{
+    NSMutableArray *bindings = [self bind:self.model keyPath:@"exampleValue1" to:self.model keyPath:@"exampleValue2" addReverseBinding:YES executeBinding:YES];
+    
+    STAssertTrue(self.model.exampleValue1 == self.model.exampleValue2, @"Execute binding did not product expected result. Expected: %d, Actual: %d",self.model.exampleValue1,self.model.exampleValue2);
+    
+    
+    for (WSObservationBinding *binder in bindings) {
+        [binding invalidate];
+        [[self allBlockBasedObservations] removeObject:binder];
+    }
+}
 @end
